@@ -11,27 +11,10 @@
         <th>email</th>
         <th>ACCIONES</th>
       </thead>
-      <tbody>
-        <tr v-for="oferta in ofertas" 
-        :key=oferta.id>
-        <td>{{oferta.id}}</td>
-        <td>{{empresa.nombre}}</td>
-        <td>{{oferta.nombre}}</td>
-        <td>{{oferta.contrato}}</td>
-        <td>{{oferta.contacto}}</td>
-        <td>{{oferta.email}}</td>
-        <td>
-            <button class="btn btn-secondary up" @click.prevent="editar(oferta.id)">
-                <i class="bi bi-pencil"></i>
-            </button>
-            <button class="btn btn-secondary up" @click.prevent="eliminar(oferta.id)">
-                <i class="bi bi-trash"></i>
-            </button>
-            <button class="btn btn-secondary up" @click.prevent="empresas(empresa.id)">
-                <i class="bi bi-eye"></i>
-            </button>
-          </td>
-        </tr>
+      <tbody >
+        <row-oferta v-for="oferta in ofertas" 
+        :key="oferta.id" :oferta="oferta">
+        </row-oferta>
       </tbody>
     </table>
   </div>
@@ -39,12 +22,13 @@
 
 <script>
 import api from '../../api'
+import rowOferta from '../components/rowOferta.vue'
 
 export default {
+  components: { rowOferta },
   data(){
     return{
-      ofertas:[],
-      empresa:[]
+      ofertas:[]
     }
   },
   props: ['id'],
@@ -52,20 +36,6 @@ export default {
     api.ofertas.getAll(this.id)
     .then((response) => this.ofertas = response.data)
     .catch((error) => alert(error))
-     api.empresas.getOne(this.id)
-    .then((response) => this.empresa = response.data)
-    .catch((error) => alert(error))
-  },
-    methods: {
-        empresas(id){
-            this.$router.push('/EmpresaView/'+id)
-        },
-        eliminar(id){
-            api.ofertas.delete(id)
-        },
-        el(id){
-            this.$router.push('/NuevaOfertaEdit/'+id)
-        }
-    }
+  }
 }
 </script>

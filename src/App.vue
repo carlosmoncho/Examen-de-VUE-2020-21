@@ -37,8 +37,7 @@
 <script>
 export default {
   created(){
-    this.$store.dispatch('loadEmpresas'),
-    this.$store.dispatch('loadOfertas')
+    this.$store.dispatch('loadEmpresas')
   }
 }
 </script>
